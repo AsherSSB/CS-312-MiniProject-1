@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+const BlogPost = require('../lib/BlogPost');
 
 router.get('/', (req, res) => {
-    res.render(path.join(__dirname, '../views/home', 'index.ejs'));
+    console.log(post);
+    res.render('home/index.ejs');
 });
 
 module.exports = router;
