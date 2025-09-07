@@ -14,19 +14,20 @@
                     <div class="blog-time"><%= blog.time %> <%= blog.author %></div>
                 </div>
             <% } %>
-            <form class="new-blog-container">
+            <form id="new-blog-container">
                 <label for="new-author-name">Author Name:</label><br>
-                <input type="text" id="new-author-name" name="new-author-name"><br>
+                <input type="text" id="new-author-name" name="author"><br>
 
                 <label for="new-title">Blog Title:</label><br>
-                <input type="text" id="new-title" name="new-title"><br>
+                <input type="text" id="new-title" name="title"><br>
 
                 <label for="new-content">Blog Content:</label><br>
-                <input type="text" id="new-content" name="new-content"><br>
+                <input type="text" id="new-content" name="content"><br>
 
                 <input type="submit" value="Submit">
             </form>
         </div>
+        <script src="/scripts/home.js"></script>
     </body>
 </html>
 
