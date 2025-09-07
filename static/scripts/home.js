@@ -1,7 +1,16 @@
 const blogContainer = document.getElementById('blog-main-container');
 const newBlogForm = document.getElementById('new-blog-container');
 const timeDisplays = document.querySelectorAll('.blog-time');
+const deleteButtons = document.querySelectorAll('.blog-delete');
+
 const serverURL = window.location.origin;
+const windowBlogData = window.blogs;
+
+const blogsDivArray = Array.from(blogContainer.children);
+
+deleteButtons.forEach(element => {
+    element.addEventListener('click', () => deleteBlog(element.closest('.blog-container')));
+});
 
 timeDisplays.forEach(element => {
     let defaultTime = element.innerHTML;
@@ -22,10 +31,10 @@ newBlogForm.addEventListener('submit', (e) => {
     }
     
     addBlog(blogData);
-})
+});
 
 function addBlog(blog) {
-    fetch(serverURL+'/api/post-blog', {
+    fetch(serverURL+'/api/blog', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -38,19 +47,38 @@ function addBlog(blog) {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error(`HTTP Error: ${response.status}`)
+            throw new Error(`HTTP Error: ${response.status}`);
         }
-        return response.json()
+        return response.json();
     })
-    .then(data => console.log(data))
+    .then(data => {
+        console.log(data)
+        window.location.reload();
+    })
     .catch(error => console.log('Error: ', error));
 
-    newBlogForm.insertAdjacentHTML('beforebegin', `<div class='blog-container'> 
-                        <div class='blog-title'>${blog.title}</div>
-                        <div class='blog-content'>${blog.content}</div>
-                        <div class="blog-footer">
-                            <span class="blog-time-container">Posted at: <span class=blog-time>${blog.time}</span></span>
-                            <span class="blog-author">By: ${blog.author}</span>
-                        </div>
-                    </div>`);
+}
+
+function addButtonListeners(blog) {
+    const deleteButton = blog.querySelector('.blog-delete');
+    deleteButton.addEventListener('click', () => deleteBlog(blog));
+}
+
+function deleteBlog(blog) {
+    const blogIndex = blogsDivArray.indexOf(blog);
+    const blogId = windowBlogData[blogIndex]['id']; 
+
+    fetch(serverURL+'/api/blog/'+blogId, {method: 'DELETE'})
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP Error: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data)
+        window.location.reload();
+    })
+    .catch(error => console.log('Error: ', error));
+
 }

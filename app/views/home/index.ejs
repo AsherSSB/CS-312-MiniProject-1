@@ -15,6 +15,9 @@
                         <span class="blog-time-container">Posted at: <span class=blog-time><%= blog.time %></span></span>
                         <span class="blog-author">By: <%= blog.author %></span>
                     </div>
+                    <div class="blog-controls">
+                        <button class="blog-delete">Delete</button>
+                    </div>
                 </div>
             <% } %>
             <form id="new-blog-container">
@@ -30,6 +33,9 @@
                 <input type="submit" value="Submit">
             </form>
         </div>
+        <script>
+            window.blogs = <%- JSON.stringify(blogs || []) %>;
+        </script>
         <script src="/scripts/home.js"></script>
     </body>
 </html>

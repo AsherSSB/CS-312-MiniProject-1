@@ -10,14 +10,29 @@ router.get('/', (req, res) => {
 });
 
 // TEMPORARY REMOVE WITH MORE API ENDPOINTS
-router.post('/api/post-blog', (req, res) => {
+router.post('/api/blog', (req, res) => {
     const payload = req.body;
     if (payload) {
-        let newBlog = new BlogPost(payload.author, payload.title, payload.content); 
+        let newBlog = new BlogPost(blogs.length, payload.author, payload.title, payload.content); 
         blogs.push(newBlog);
-        res.status(200).json({message: "blog recieved successfully"});
+        res.status(201).json({message: "blog recieved successfully"});
     } else {
         res.status(400).json({message: "blog posted unsuccessfully"});
+    }
+});
+
+router.delete('/api/blog/:id', (req, res) => {
+    const blogId = parseInt(req.params.id);
+    if (!isNaN(blogId)) {
+        const blogIndex = blogs.findIndex(blog => blog.id === blogId);
+        if (blogIndex !== -1){
+            blogs.splice(blogIndex, 1); 
+            res.status(200).json({message: `Blog ${blogId} successfully deleted`});
+        } else {
+            res.status(404).json({message: 'Blog not found'});
+        }
+    } else {
+        res.status(400).json({message: 'Invalid blog ID'});
     }
 });
 
