@@ -11,7 +11,10 @@
                 <div class="blog-container">
                     <div class="blog-title"><%= blog.title %></div>
                     <div class="blog-content"><%= blog.content %></div>
-                    <div class="blog-time"><%= blog.time %> <%= blog.author %></div>
+                    <div class="blog-footer">
+                        <span class="blog-time-container">Posted at: <span class=blog-time><%= blog.time %></span></span>
+                        <span class="blog-author">By: <%= blog.author %></span>
+                    </div>
                 </div>
             <% } %>
             <form id="new-blog-container">
