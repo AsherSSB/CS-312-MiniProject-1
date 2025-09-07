@@ -6,6 +6,27 @@
     </head>
     <body>
         <h1>Blog App</h1>
+        <div id="blog-main-container">
+            <% for (let blog of blogs) { %>
+                <div class="blog-container">
+                    <div class="blog-title"><%= blog.title %></div>
+                    <div class="blog-content"><%= blog.content %></div>
+                    <div class="blog-time"><%= blog.time %> <%= blog.author %></div>
+                </div>
+            <% } %>
+            <form class="new-blog-container">
+                <label for="new-author-name">Author Name:</label><br>
+                <input type="text" id="new-author-name" name="new-author-name"><br>
+
+                <label for="new-title">Blog Title:</label><br>
+                <input type="text" id="new-title" name="new-title"><br>
+
+                <label for="new-content">Blog Content:</label><br>
+                <input type="text" id="new-content" name="new-content"><br>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
     </body>
 </html>
 

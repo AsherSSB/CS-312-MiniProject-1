@@ -3,9 +3,10 @@ const router = express.Router();
 const path = require('path');
 const BlogPost = require('../lib/BlogPost');
 
+blogs = []
+
 router.get('/', (req, res) => {
-    console.log(post);
-    res.render('home/index.ejs');
+    res.render('home/index.ejs', {blogs: blogs});
 });
 
 module.exports = router;
