@@ -2,6 +2,7 @@ const blogContainer = document.getElementById('blog-main-container');
 const newBlogForm = document.getElementById('new-blog-container');
 const timeDisplays = document.querySelectorAll('.blog-time');
 const deleteButtons = document.querySelectorAll('.blog-delete');
+const editButtons = document.querySelectorAll('.blog.edit');
 
 const serverURL = window.location.origin;
 const windowBlogData = window.blogs;
@@ -10,6 +11,10 @@ const blogsDivArray = Array.from(blogContainer.children);
 
 deleteButtons.forEach(element => {
     element.addEventListener('click', () => deleteBlog(element.closest('.blog-container')));
+});
+
+editButtons.forEach(element => {
+	element.addEventListener('click', () => editBlog(element.closest('.blog-container')));
 });
 
 timeDisplays.forEach(element => {
@@ -59,11 +64,6 @@ function addBlog(blog) {
 
 }
 
-function addButtonListeners(blog) {
-    const deleteButton = blog.querySelector('.blog-delete');
-    deleteButton.addEventListener('click', () => deleteBlog(blog));
-}
-
 function deleteBlog(blog) {
     const blogIndex = blogsDivArray.indexOf(blog);
     const blogId = windowBlogData[blogIndex]['id']; 
@@ -80,5 +80,11 @@ function deleteBlog(blog) {
         window.location.reload();
     })
     .catch(error => console.log('Error: ', error));
+}
+
+function editBlog(blog) {
+    const blogIndex = blogsDivArray.indexOf(blog);
+    const blogId = windowBlogData[blogIndex]['id']; 
 
 }
+

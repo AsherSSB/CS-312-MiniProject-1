@@ -9,31 +9,60 @@ router.get('/', (req, res) => {
     res.render('home/index.ejs', {blogs: blogs});
 });
 
-// TEMPORARY REMOVE WITH MORE API ENDPOINTS
+// TEMPORARY PUT API CALLS IN API ROUTER
 router.post('/api/blog', (req, res) => {
     const payload = req.body;
-    if (payload) {
-        let newBlog = new BlogPost(blogs.length, payload.author, payload.title, payload.content); 
-        blogs.push(newBlog);
-        res.status(201).json({message: "blog recieved successfully"});
-    } else {
-        res.status(400).json({message: "blog posted unsuccessfully"});
-    }
+    if (!payload) {
+        return res.status(400).json({message: "blog posted unsuccessfully"});
+	}
+
+	let newBlog = new BlogPost(blogs.length, payload.author, payload.title, payload.content); 
+	blogs.push(newBlog);
+	return res.status(201).json({message: "blog recieved successfully"});
 });
 
 router.delete('/api/blog/:id', (req, res) => {
     const blogId = parseInt(req.params.id);
-    if (!isNaN(blogId)) {
-        const blogIndex = blogs.findIndex(blog => blog.id === blogId);
-        if (blogIndex !== -1){
-            blogs.splice(blogIndex, 1); 
-            res.status(200).json({message: `Blog ${blogId} successfully deleted`});
-        } else {
-            res.status(404).json({message: 'Blog not found'});
-        }
-    } else {
-        res.status(400).json({message: 'Invalid blog ID'});
-    }
+    if (isNaN(blogId)) {
+        return res.status(400).json({message: 'Invalid blog ID'});
+	}
+
+	const blogIndex = blogs.findIndex(blog => blog.id === blogId);
+
+	if (blogIndex !== -1){
+		blogs.splice(blogIndex, 1); 
+		return res.status(200).json({message: `Blog ${blogId} successfully deleted`});
+
+	} else {
+		return res.status(404).json({message: 'Blog not found'});
+	}
+});
+
+router.patch('/api/blog/:id', (req, res) => {
+	const blogId = parseInt(req.params.id);
+	const payload = req.body;
+	if (!isNaN(blogId)) {
+		return res.status(400).json({message: 'Invalid blog ID'});
+	}
+	if (!payload) {
+		return res.status(400).json({message: 'Invalid payload'});
+	}
+
+	const blogIndex = blogs.findIndex(blog => blog.id === blogId);
+
+	if (blogIndex === -1) {
+		return res.status(404).json({message: 'Blog not found'});
+	}
+
+	const targetBlog = blogs[blogIndex];
+	const propertiesChanged = [];
+	for	(key in payload){
+		if (key in targetBlog) {
+			targetBlog[key] = payload[key]
+			propertiesChanged.push(key)
+		}
+	}
+	return res.status(200).json({message: `Blog ${propertiesChanged.join(", ")} changed`});
 });
 
 module.exports = router;
