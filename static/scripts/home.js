@@ -3,6 +3,8 @@ const newBlogForm = document.getElementById('new-blog-container');
 const timeDisplays = document.querySelectorAll('.blog-time');
 const deleteButtons = document.querySelectorAll('.blog-delete');
 const editButtons = document.querySelectorAll('.blog.edit');
+const newBlogButton = document.getElementById('new-blog-button');
+const submissionOverlay = document.getElementById('submission-overlay');
 
 const serverURL = window.location.origin;
 const windowBlogData = window.blogs;
@@ -37,6 +39,11 @@ newBlogForm.addEventListener('submit', (e) => {
     
     addBlog(blogData);
 });
+
+function displayOverlay(headerText) {
+    const overlayHeader = submissionOverlay.querySelector('h1');
+    overlayHeader.innerHTML = headerText;
+}
 
 function addBlog(blog) {
     fetch(serverURL+'/api/blog', {

@@ -2,10 +2,17 @@
 <html>
     <head>
         <title>Blog App</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="/styles/home.css">
     </head>
     <body>
-        <h1>Blog App</h1>
+        <header>
+            <h1 class="d-flex justify-content-between align-items-center my-3 mx-5">
+              <span class="ml-5">Blog.site</span>
+              <button id="new-blog-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">New Blog</button>
+            </h1>
+        </header>
+
         <div id="blog-main-container">
             <% for (let blog of blogs) { %>
                 <div class="blog-container">
@@ -21,22 +28,45 @@
                     </div>
                 </div>
             <% } %>
-            <form id="new-blog-container">
-                <label for="new-author-name">Author Name:</label><br>
-                <input type="text" id="new-author-name" name="author"><br>
-
-                <label for="new-title">Blog Title:</label><br>
-                <input type="text" id="new-title" name="title"><br>
-
-                <label for="new-content">Blog Content:</label><br>
-                <input type="text" id="new-content" name="content"><br>
-
-                <input type="submit" value="Submit">
-            </form>
         </div>
-        <script>
-            window.blogs = <%- JSON.stringify(blogs || []) %>;
-        </script>
+
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">New Blog</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form id="new-blog-container">
+
+                    <div class="form-group">
+                        <label for="new-author-name">Author Name:</label>
+                        <input class="form-control" type="text" id="new-author-name" name="author">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new-title">Blog Title:</label>
+                        <input class="form-control" type="text" id="new-title" name="title">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new-content">Blog Content:</label>
+                        <input class="form-control" type="text" id="new-content" name="content">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script>window.blogs = <%- JSON.stringify(blogs || []) %>;</script>
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src="/scripts/home.js"></script>
     </body>
 </html>
