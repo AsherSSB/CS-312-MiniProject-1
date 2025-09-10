@@ -2,9 +2,11 @@ const blogContainer = document.getElementById('blog-main-container');
 const newBlogForm = document.getElementById('new-blog-container');
 const timeDisplays = document.querySelectorAll('.blog-time');
 const deleteButtons = document.querySelectorAll('.blog-delete');
-const editButtons = document.querySelectorAll('.blog.edit');
+const editButtons = document.querySelectorAll('.blog-edit');
 const newBlogButton = document.getElementById('new-blog-button');
 const submissionOverlay = document.getElementById('submission-overlay');
+const editForm = document.getElementById('edit-blog-container');
+const editModal = document.getElementById('staticEdit');
 
 const serverURL = window.location.origin;
 const windowBlogData = window.blogs;
@@ -12,11 +14,11 @@ const windowBlogData = window.blogs;
 const blogsDivArray = Array.from(blogContainer.children);
 
 deleteButtons.forEach(element => {
-    element.addEventListener('click', () => deleteBlog(element.closest('.blog-container')));
+    element.addEventListener('click', () => deleteBlog(element.closest('.row')));
 });
 
 editButtons.forEach(element => {
-	element.addEventListener('click', () => editBlog(element.closest('.blog-container')));
+	element.addEventListener('click', () => editBlog(element.closest('.row')));
 });
 
 timeDisplays.forEach(element => {
@@ -38,6 +40,11 @@ newBlogForm.addEventListener('submit', (e) => {
     }
     
     addBlog(blogData);
+});
+
+editForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    patchEdit()
 });
 
 function displayOverlay(headerText) {
@@ -64,7 +71,6 @@ function addBlog(blog) {
         return response.json();
     })
     .then(data => {
-        console.log(data)
         window.location.reload();
     })
     .catch(error => console.log('Error: ', error));
@@ -83,7 +89,6 @@ function deleteBlog(blog) {
         return response.json();
     })
     .then(data => {
-        console.log(data)
         window.location.reload();
     })
     .catch(error => console.log('Error: ', error));
@@ -92,6 +97,30 @@ function deleteBlog(blog) {
 function editBlog(blog) {
     const blogIndex = blogsDivArray.indexOf(blog);
     const blogId = windowBlogData[blogIndex]['id']; 
+    editForm.dataset.blogId = blogId;
+}
 
+function patchEdit() {
+    formData = new FormData(editForm);
+    blogId = editForm.dataset.blogId;
+    fetch(serverURL+'/api/blog/'+blogId, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            content: formData.get('content')
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP Error: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        window.location.reload();
+    })
+    .catch(error => console.log('Error: ', error));
 }
 

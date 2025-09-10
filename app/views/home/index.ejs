@@ -6,63 +6,93 @@
         <link rel="stylesheet" type="text/css" href="/styles/home.css">
     </head>
     <body>
-        <header>
+        <header class="fixed-top">
             <h1 class="d-flex justify-content-between align-items-center my-3 mx-5">
               <span class="ml-5">Blog.site</span>
               <button id="new-blog-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">New Blog</button>
             </h1>
         </header>
 
-        <div id="blog-main-container">
+        <!-- Blogs Container -->
+        <div id="blog-main-container" class="container">
             <% for (let blog of blogs) { %>
-                <div class="blog-container">
-                    <div class="blog-title"><%= blog.title %></div>
-                    <div class="blog-content"><%= blog.content %></div>
-                    <div class="blog-footer">
-                        <span class="blog-time-container">Posted at: <span class=blog-time><%= blog.time %></span></span>
-                        <span class="blog-author">By: <%= blog.author %></span>
+                <div class="row card mb-5">
+                    <div class="blog-title card-header d-flex justify-content-between"><span><%= blog.title %></span><span class="blog-author">Posted By: <%= blog.author %></span></div>
+                    <div class="card-body my-3">
+                        <div class="blog-content card-text"><%= blog.content %></div>
                     </div>
-                    <div class="blog-controls">
-                        <button class="blog-delete">Delete</button>
-						<button class="blog-edit">Edit</button>
+                    <div class="blog-footer card-footer d-flex justify-content-between">
+                        <span class="blog-time-container">Posted at: <span class=blog-time><%= blog.time %></span></span>
+                        <span class="blog-controls">
+                            <button class="blog-delete btn-danger btn-sm">Delete</button>
+                            <button class="blog-edit btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#staticEdit">Edit</button>
+                        </span>
                     </div>
                 </div>
+
             <% } %>
         </div>
 
+        <!-- New Post Modal -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">New Blog</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <form id="new-blog-container">
-
-                    <div class="form-group">
-                        <label for="new-author-name">Author Name:</label>
-                        <input class="form-control" type="text" id="new-author-name" name="author">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <div class="modal-body">
+                        <form id="new-blog-container">
 
-                    <div class="form-group">
-                        <label for="new-title">Blog Title:</label>
-                        <input class="form-control" type="text" id="new-title" name="title">
-                    </div>
+                            <div class="form-group">
+                                <label for="new-author-name">Author Name:</label>
+                                <input class="form-control" type="text" id="new-author-name" name="author">
+                            </div>
 
-                    <div class="form-group">
-                        <label for="new-content">Blog Content:</label>
-                        <input class="form-control" type="text" id="new-content" name="content">
-                    </div>
+                            <div class="form-group">
+                                <label for="new-title">Blog Title:</label>
+                                <input class="form-control" type="text" id="new-title" name="title">
+                            </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                            <div class="form-group">
+                                <label for="new-content">Blog Content:</label>
+                                <input class="form-control" type="text" id="new-content" name="content">
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
                     </div>
-                </form>
-              </div>
+                </div>
             </div>
-          </div>
+        </div>
+
+        <!-- Edit Modal -->
+        <div class="modal fade" id="staticEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticEditLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticEditLabel"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit-blog-container">
+
+                            <div class="form-group">
+                                <label for="new-content">Blog Content:</label>
+                                <input class="form-control" type="text" id="edit-content" name="content">
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <script>window.blogs = <%- JSON.stringify(blogs || []) %>;</script>

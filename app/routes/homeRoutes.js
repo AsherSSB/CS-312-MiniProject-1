@@ -41,7 +41,8 @@ router.delete('/api/blog/:id', (req, res) => {
 router.patch('/api/blog/:id', (req, res) => {
 	const blogId = parseInt(req.params.id);
 	const payload = req.body;
-	if (!isNaN(blogId)) {
+
+	if (isNaN(blogId)) {
 		return res.status(400).json({message: 'Invalid blog ID'});
 	}
 	if (!payload) {
