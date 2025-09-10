@@ -17,7 +17,10 @@
         <div id="blog-main-container" class="container">
             <% for (let blog of blogs) { %>
                 <div class="row card mb-5">
-                    <div class="blog-title card-header d-flex justify-content-between"><span><%= blog.title %></span><span class="blog-author">Posted By: <%= blog.author %></span></div>
+                    <div class="blog-title card-header d-flex justify-content-between">
+						<span><span class="rounded-pill bg-primary px-2 py-1"><%= blog.category %></span> <%= blog.title %></span>
+						<span class="blog-author">Posted By: <%= blog.author %></span>
+					</div>
                     <div class="card-body my-3">
                         <div class="blog-content card-text"><%= blog.content %></div>
                     </div>
@@ -65,10 +68,7 @@
 									<option>Tech</option>
 									<option>Lifestyle</option>
 									<option>Education</option>
-									<option>Politics</option>
-									<option>Travel</option>
 									<option>Food</option>
-									<option>Health</option>
 								</select>
 							</div>
 
