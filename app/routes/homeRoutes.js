@@ -16,7 +16,14 @@ router.post('/api/blog', (req, res) => {
         return res.status(400).json({message: "blog posted unsuccessfully"});
 	}
 
-	let newBlog = new BlogPost(blogs.length, payload.author, payload.title, payload.content); 
+	let newBlog = new BlogPost(
+		blogs.length, 
+		payload.author, 
+		payload.title, 
+		payload.content, 
+		payload.category
+	); 
+
 	blogs.push(newBlog);
 	return res.status(201).json({message: "blog recieved successfully"});
 });

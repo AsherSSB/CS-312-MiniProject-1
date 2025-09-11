@@ -35,8 +35,8 @@ newBlogForm.addEventListener('submit', (e) => {
     let blogData = {
         title: formData.get('title'),
         content: formData.get('content'),
-        time: new Date().toLocaleString(),
-        author: formData.get('author')
+        author: formData.get('author'),
+		category: formData.get('category')
     }
     
     addBlog(blogData);
@@ -52,16 +52,17 @@ function displayOverlay(headerText) {
     overlayHeader.innerHTML = headerText;
 }
 
-function addBlog(blog) {
+function addBlog(blogData) {
     fetch(serverURL+'/api/blog', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            title: blog.title,
-            content: blog.content,
-            author: blog.author
+            title: blogData.title,
+            content: blogData.content,
+            author: blogData.author,
+			category: blogData.category
         })
     })
     .then(response => {
