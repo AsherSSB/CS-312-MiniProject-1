@@ -6,10 +6,10 @@ const BlogPost = require('../lib/BlogPost');
 let blogs = []
 
 router.get('/', (req, res) => {
-    res.render('home/index.ejs', {blogs: blogs});
+    return res.render('home/index.ejs', {blogs: blogs});
 });
 
-// TEMPORARY PUT API CALLS IN API ROUTER
+// TEMPORARY PUT API CALLS IN API ROUTER LATER
 router.post('/api/blog', (req, res) => {
     const payload = req.body;
     if (!payload) {
@@ -45,6 +45,7 @@ router.patch('/api/blog/:id', (req, res) => {
 	if (isNaN(blogId)) {
 		return res.status(400).json({message: 'Invalid blog ID'});
 	}
+
 	if (!payload) {
 		return res.status(400).json({message: 'Invalid payload'});
 	}

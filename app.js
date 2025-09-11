@@ -8,8 +8,8 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'app/views'));
 
 app.use(express.static(path.join(__dirname, 'static')));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({ extended: true }));  // auto parse form data into object
+app.use(express.json());  // automatically parse json request body into object
 
 app.use('/', homeRoutes);
 
